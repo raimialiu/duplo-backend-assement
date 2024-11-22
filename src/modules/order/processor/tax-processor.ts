@@ -1,5 +1,5 @@
 // src/modules/order/processors/tax-processor.ts
-import { Processor } from '@nestjs/bullmq';
+import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
 import { InjectModel } from '@nestjs/mongoose';
@@ -10,7 +10,7 @@ import { firstValueFrom } from 'rxjs';
 import { timeout, retry } from 'rxjs/operators';
 
 @Processor('tax-processing')
-export class TaxProcessor {
+export class TaxProcessor  {
   private readonly logger = new Logger(TaxProcessor.name);
 
   constructor(
@@ -19,7 +19,7 @@ export class TaxProcessor {
     private httpService: HttpService,
   ) {}
 
-  @Processor('process-tax')
+
   async processTax(job: Job<{ transactionId: string; orderData: any }>) {
     this.logger.debug(`Processing tax for transaction ${job.data.transactionId}`);
     
