@@ -4,6 +4,10 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrderModule } from './modules/order/order.module';
 import { Order } from './modules/business/entities/order.entity';
+import { AuthGuard } from './common/guards/auth.guard';
+import { ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -17,9 +21,20 @@ import { Order } from './modules/business/entities/order.entity';
       entities: [Order],
       synchronize: true,
     }),
-    OrderModule
+    OrderModule,
+    PassportModule,
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: config.get<string>('JWT_SECRET'),
+        signOptions: {
+          expiresIn: config.get<string>('JWT_EXPIRES_IN', '1d'),
+        },
+      }),
+    }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthGuard],
+  exports: [AuthGuard]
 })
 export class AppModule {}

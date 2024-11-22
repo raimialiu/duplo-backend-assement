@@ -9,9 +9,10 @@ import {
     ValidationPipe,
   } from '@nestjs/common';
   import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-  import { OrderService } from './order.service';
-  import { CreateOrderDto, QueryTransactionDto } from './dto';
-  import { AuthGuard } from '../auth/guards/auth.guard';
+import { CreateOrderDto } from '../dto/order.dto';
+import { QueryTransactionDto } from '../dto/querytransaction.dto';
+import { OrderService } from '../service/order.service';
+import { AuthGuard } from 'src/common/guards/auth.guard';
   
   @ApiTags('Orders')
   @Controller('orders')

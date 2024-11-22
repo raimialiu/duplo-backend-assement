@@ -1,5 +1,5 @@
 // src/modules/order/dto/create-order.dto.ts
-import { IsNumber, IsUUID, IsArray, ValidateNested } from 'class-validator';
+import { IsNumber, IsUUID, IsArray, ValidateNested, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class OrderItemDto {
